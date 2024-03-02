@@ -1,0 +1,14 @@
+Cargo,model1,321,534,1_442_434
+Fighter,model2,532,5345,342_424
+Passenger,model3,523,5435,1_5234_453
+Cargo,model5,254,534,1_442_434
+Fighter,model6,723,613,342_424
+Passenger,model7,534,624,1_5234_453
+Cargo,model1,321,534,1_442_434
+
+Fighter,model2,532,5345,342_424
+Passenger,model3,523,5435,1_5234_453
+Cargo,model5,254,534,1_442_434
+grewh,gwce,hwevh,chwe,
+Fighter,model6,723,613,342_424
+Passenger,model7,534,624,1_5234_453
