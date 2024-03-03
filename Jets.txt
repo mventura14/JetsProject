@@ -1,14 +1,14 @@
-Cargo,model1,321,534,1_442_434
-Fighter,model2,532,5345,342_424
-Passenger,model3,523,5435,1_5234_453
-Cargo,model5,254,534,1_442_434
-Fighter,model6,723,613,342_424
-Passenger,model7,534,624,1_5234_453
-Cargo,model1,321,534,1_442_434
+Cargo,Jet 1,321,534,1_442_434
+Fighter,Jet 2,532,5345,342_424
+Passenger,Jet 3,523,5435,1_5234_453
+Cargo,Jet 4,254,534,1_442_434
+Fighter,Jet 5,723,613,342_424
+Passenger,Jet 6,534,624,1_5234_453
+Cargo,Jet 7,321,534,1_442_434
 
-Fighter,model2,532,5345,342_424
-Passenger,model3,523,5435,1_5234_453
-Cargo,model5,254,534,1_442_434
+Fighter,Jet 8,532,5345,342_424
+Passenger,Jet 9,523,5435,1_5234_453
+Cargo,Jet 10,254,534,1_442_434
 grewh,gwce,hwevh,chwe,
-Fighter,model6,723,613,342_424
-Passenger,model7,534,624,1_5234_453
+Fighter,Jet 12,723,613,342_424
+Passenger,Jet 13,534,624,1_5234_453

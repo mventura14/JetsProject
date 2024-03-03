@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.skilldistillery.jets.entities.AirField;
 import com.ventura.util.ConsoleEffect;
+import com.ventura.util.VerifyScanner;
 
 public class JetsApp implements ConsoleEffect {
 	private AirField a1 = new AirField("Jets.txt");
@@ -41,8 +42,10 @@ public class JetsApp implements ConsoleEffect {
 	};
 
 	public boolean userSelection(boolean running, Scanner sc) {
-		int user = sc.nextInt();
-		running = false;
+		String message = blackBg + bcyan + "Enter Selection: " + bcyan;
+		running = true;
+		int user = VerifyScanner.inputValidation(sc, "int", message, 0, 10);
+		System.out.print(reset);
 		switch (user) {
 		case 1:
 			a1.showHanger();
@@ -60,20 +63,21 @@ public class JetsApp implements ConsoleEffect {
 			a1.loadAllCargo();
 			break;
 		case 6:
-			a1.addJet(sc);
+
 			break;
 		case 7:
 			a1.addJet(sc);
 			break;
 		case 8:
-			System.out.println("Selected 8");
+			a1.removeJet(sc);
 			break;
 		case 9:
 			System.out.println("Program ends");
 			running = false;
 			break;
 		}
-		System.out.println();
+
+		System.out.print(reset);
 		return running;
 
 	};

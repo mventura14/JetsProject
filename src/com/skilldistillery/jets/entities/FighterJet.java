@@ -1,6 +1,8 @@
 package com.skilldistillery.jets.entities;
 
-public class FighterJet extends Jet implements IntfFighter {
+import com.ventura.util.ConsoleEffect;
+
+public class FighterJet extends Jet implements IntfFighter, ConsoleEffect {
 
 	private static final String type = "Fighter";
 
@@ -10,12 +12,12 @@ public class FighterJet extends Jet implements IntfFighter {
 
 	@Override
 	public void fly() {
-		System.out.println(type + " flying");
+		System.out.print(blackBg + green + type + " Flying Out:   " + reset);
 	}
 
 	@Override
 	public String toString() {
-		return "[Type: " + type + "\t\t" + "Model: " + getModel() + "\t" + "Speed: " + getSpeed() + "\t" + "Range: "
+		return "Model: " + getModel() + "\t" + "Speed: " + getSpeed() + "\t" + "Range: "
 				+ getRange() + "\t" + "Price: " + getPrice() + "]";
 	}
 

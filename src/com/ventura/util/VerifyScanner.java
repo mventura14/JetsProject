@@ -2,21 +2,7 @@ package com.ventura.util;
 
 import java.util.Scanner;
 
-public class VerifyScanner {
-
-	public static void main(String[] args) {
-
-		Scanner sc = new Scanner(System.in);
-
-		String message = "Please enter an integer: ";
-		int user = inputValidation(sc, "int", message);
-		System.out.println(user);
-		
-		message = "Please enter a double: ";
-		double userdouble = inputValidation(sc, "double", message);
-		System.out.println(userdouble);
-
-	}
+public final class VerifyScanner {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T inputValidation(Scanner sc, String type, String message) {
@@ -35,6 +21,18 @@ public class VerifyScanner {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> T inputValidation(Scanner sc, String type, String message, int min, int max) {
+
+		switch (type) {
+		case "int":
+			return (T) Integer.valueOf(intScan(sc, message, min, max));
+		default:
+			return null;
+		}
+	}
+
+
 	private static long longScan(Scanner sc, String message) {
 		long userInput = 0;
 		boolean isValidInput = false;
@@ -51,7 +49,7 @@ public class VerifyScanner {
 		return userInput;
 	}
 
-	public static double doubleScan(Scanner sc, String message) {
+	private static double doubleScan(Scanner sc, String message) {
 		double userInput = 0;
 		boolean isValidInput = false;
 
@@ -67,7 +65,7 @@ public class VerifyScanner {
 		return userInput;
 	}
 
-	public static int intScan(Scanner sc, String message) {
+	private static int intScan(Scanner sc, String message) {
 		int userInput = 0;
 		boolean isValidInput = false;
 
@@ -80,47 +78,29 @@ public class VerifyScanner {
 				sc.next();
 			}
 		}
-		
-	
 
 		return userInput;
 	}
-	
-//	public static void examplereader() {
-//			
-//		try ( BufferedReader bufIn = new BufferedReader(new FileReader("input.txt")) ) {
-//			  String line;
-//			  while ((line = bufIn.readLine()) != null) {
-//			    System.out.println(line);
-//			  }
-//			}
-//			catch (IOException e) {
-//			  System.err.println(e);
-//			}
-//			
-//			
-//		};
+
+	private static int intScan(Scanner sc, String message, int min, int max) {
+		int userInput = 0;
+		boolean isValidInput = false;
+
+		while (!isValidInput) {
+			System.out.print(message);
+			if (sc.hasNextInt()) {
+				userInput = sc.nextInt();
+				if (userInput > min && userInput < max) {
+					isValidInput = true;
+				}
+			} else {
+				sc.next();
+			}
+
+		}
 		
-//		public static void exampleWriter() {
-//			
-//			  String[] data = { "Cat", "Dog", "Frog", "Giraffe" };
-//			  
-//			  
-//			  try {
-//			    FileWriter fw = new FileWriter("test.txt");
-//			    PrintWriter pw = new PrintWriter(fw);
-//			    for (String string : data) {
-//			      pw.println(string);
-//			    }
-//			    pw.close();
-//			  }
-//			  catch (IOException e) {
-//			    e.printStackTrace();
-//			  }
-//			}
-//			
-//			
-//			
-//		};
-	
+
+		return userInput;
+	}
+
 }

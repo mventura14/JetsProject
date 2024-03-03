@@ -29,29 +29,29 @@ public class AirField implements ConsoleEffect {
 				try {
 					String[] jetInfo = line.split(",");
 
-				String type = jetInfo[0];
-				String model = jetInfo[1];
-				double speed = Double.parseDouble(jetInfo[2]);
-				int range = Integer.parseInt(jetInfo[3]);
-				long price = Long.parseLong(String.join("", jetInfo[4].split("_")));
+					String type = jetInfo[0];
+					String model = jetInfo[1];
+					double speed = Double.parseDouble(jetInfo[2]);
+					int range = Integer.parseInt(jetInfo[3]);
+					long price = Long.parseLong(String.join("", jetInfo[4].split("_")));
 
-				switch (type.toLowerCase()) {
-				case "passenger":
-					hanger.add(new PassengerPlane(model, speed, range, price));
-					break;
-				case "fighter":
-					hanger.add(new FighterJet(model, speed, range, price));
-					break;
-				case "cargo":
-					hanger.add(new CargoPlane(model, speed, range, price));
-					break;
+					switch (type.toLowerCase()) {
+					case "passenger":
+						hanger.add(new PassengerPlane(model, speed, range, price));
+						break;
+					case "fighter":
+						hanger.add(new FighterJet(model, speed, range, price));
+						break;
+					case "cargo":
+						hanger.add(new CargoPlane(model, speed, range, price));
+						break;
+					}
+
+				} catch (Exception e) {
+					System.out.println(reset + byellow + "File error on line: " + count + reset);
+				} finally {
+					count++;
 				}
-
-			} catch (Exception e) {
-				System.out.println(yellow + "File error on line: " + count + reset);
-			} finally {
-				count++;
-			}
 
 			}
 
@@ -72,24 +72,38 @@ public class AirField implements ConsoleEffect {
 
 	public void showHanger() {
 		int counter = 0;
+		System.out.println();
 		for (Jet jet : hanger) {
 			if (counter % 2 == 0) {
 				System.out.print(bblackBg + black);
 			} else {
 				System.out.print(blackBg + bblack);
 			}
-			System.out.println(jet);
+			System.out.println((counter + 1) + ") " + jet);
 			counter++;
 		}
-		System.out.print(reset);
+		System.out.println(reset);
 	}
 
 	public void flyAllJets() {
 		ArrayList<Jet> jets = this.getHanger();
+		System.out.println();
 		for (int i = 0; i < jets.size(); i++) {
-			System.out.println(jets.get(i));
 			jets.get(i).fly();
+
+			if (i % 2 == 0) {
+				System.out.print(bblackBg + black);
+				System.out.println("  " + jets.get(i));
+
+			} else {
+				System.out.print(blackBg + bblack);
+				System.out.println("  " + jets.get(i));
+			}
+
+			System.out.print(reset);
+
 		}
+		System.out.println();
 	};
 
 	public void showFastest() {
@@ -135,25 +149,27 @@ public class AirField implements ConsoleEffect {
 		int range;
 		long price;
 		String message;
+		System.out.printf("%s%s%37s%n", bblackBg, black, "");
+		System.out.printf("%11s ADDING NEW JET%11s%n", "", "");
+		System.out.printf("%37s%n", "");
+		System.out.printf("%11s  Select Type: %11s%n", "", "");
+		message = black + "1) PASSENGER | 2) FIGHTER | 3) CARGO " + blue + "\nEnter Selection:  ";
+		type = VerifyScanner.inputValidation(sc, "int", message, 0, 4);
 
-		System.out.printf("ADDING NEW JET%n");
-		System.out.printf("%1s  Type selection: %11s%n", "", "");
-		message = "1) PASSENGER | 2) FIGHTER | 3) CARGO \nSelection:  ";
-		type = VerifyScanner.inputValidation(sc, "int", message);
-
-		System.out.printf("Enter Model: %n");
+		System.out.printf("Enter Model: ");
 		sc.nextLine();
-		model = sc.nextLine();
+		model = sc.nextLine().trim();
 
-		message = "Enter Speed: ";
+		message = black + "Enter Speed (MPH): " + blue;
 		speed = VerifyScanner.inputValidation(sc, "double", message);
 
-		System.out.printf("Enter Range: ");
-		range = (int) sc.nextDouble();
+		message = black + "Enter Range (Miles): " + blue;
+		range = VerifyScanner.inputValidation(sc, "int", message);
 
-		System.out.printf("Enter price [Numbers only]: ");
+		message = black + "Enter price [Numbers only]: " + blue;
 		price = VerifyScanner.inputValidation(sc, "long", message);
 
+		System.out.println(reset);
 		switch (type) {
 		case 1:
 			hanger.add(new PassengerPlane(model, speed, range, price));
@@ -169,6 +185,31 @@ public class AirField implements ConsoleEffect {
 	};
 
 	public void removeJet(Scanner sc) {
-		hanger.remove(0);
-	};
+		int counter = 0;
+		int userInput;
+		System.out.println();
+		System.out.printf("%s%s%28s Remove A Jet %28s%s%n", redBg, black, "", "", reset);
+		System.out.printf("%s%s0) Cancel operation %50s%s%n", greenBg, black, "", reset);
+		for (Jet jet : hanger) {
+			if (counter % 2 == 0) {
+				System.out.print(bblackBg + black);
+			} else {
+				System.out.print(blackBg + bblack);
+			}
+
+			System.out.println((counter + 1) + ") " + jet);
+			counter++;
+		}
+		String message = redBg + black + "Enter Jet number you wish to remove: ";
+		userInput = VerifyScanner.inputValidation(sc, "int", message, -1, hanger.size() + 1);
+
+		if (userInput == 0) {
+			System.out.printf("%s%s%26s Removal Canceled %26s%n", greenBg, black, "", "");
+			System.out.println();
+			return;
+		}
+		System.out.println(reset);
+		hanger.remove(userInput - 1);
+		System.out.println();
+	}
 }

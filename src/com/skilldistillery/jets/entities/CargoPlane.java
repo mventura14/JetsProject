@@ -12,7 +12,7 @@ public class CargoPlane extends Jet implements IntrfCargo, ConsoleEffect {
 
 	@Override
 	public void fly() {
-		System.out.println(type + " flying");
+		System.out.print(blackBg + green + type + " Flying Out:     " + reset);
 		
 	}
 
@@ -32,7 +32,7 @@ public class CargoPlane extends Jet implements IntrfCargo, ConsoleEffect {
 
 	@Override
 	public String toString() {
-		return "[Type: " + type + "\t\t" + "Model: " + getModel() + "\t" + "Speed: " + getSpeed() + "\t" + "Range: "
+		return "Model: " + getModel() + "\t" + "Speed: " + getSpeed() + "\t" + "Range: "
 				+ getRange() + "\t" + "Price: " + getPrice() + "]";
 	}
 
