@@ -52,7 +52,7 @@ public class JetsApp implements ConsoleEffect {
 		System.out.print(reset);
 		switch (user) {
 		case 1:
-			a1.showHanger();
+			a1.showHangar();
 			break;
 		case 2:
 			a1.flyAllJets();

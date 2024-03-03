@@ -11,13 +11,13 @@ import com.ventura.util.VerifyScanner;
 
 public class AirField implements ConsoleEffect {
 
-	private ArrayList<Jet> hanger = new ArrayList<>();
+	private ArrayList<Jet> hangar = new ArrayList<>();
 
 	public AirField() {
 	};
 
 	public AirField(String file) {
-		hanger = this.getJetsFromFile(file);
+		hangar = this.getJetsFromFile(file);
 	};
 
 	public ArrayList<Jet> getJetsFromFile(String file) {
@@ -36,13 +36,13 @@ public class AirField implements ConsoleEffect {
 
 					switch (type.toLowerCase()) {
 					case "passenger":
-						hanger.add(new PassengerPlane(model, speed, range, price));
+						hangar.add(new PassengerPlane(model, speed, range, price));
 						break;
 					case "fighter":
-						hanger.add(new FighterJet(model, speed, range, price));
+						hangar.add(new FighterJet(model, speed, range, price));
 						break;
 					case "cargo":
-						hanger.add(new CargoPlane(model, speed, range, price));
+						hangar.add(new CargoPlane(model, speed, range, price));
 						break;
 					}
 
@@ -60,21 +60,21 @@ public class AirField implements ConsoleEffect {
 			System.err.println("File not found, Generating empty airfield \n");
 		}
 
-		return hanger;
+		return hangar;
 	}
 
-	public ArrayList<Jet> getHanger() {
-		return hanger;
+	public ArrayList<Jet> getHangar() {
+		return hangar;
 	}
 
-	public void setHanger(ArrayList<Jet> hanger) {
-		this.hanger = hanger;
+	public void setHangar(ArrayList<Jet> hangar) {
+		this.hangar = hangar;
 	}
 
-	public void showHanger() {
+	public void showHangar() {
 		int counter = 0;
 		System.out.println();
-		for (Jet jet : hanger) {
+		for (Jet jet : hangar) {
 			if (counter % 2 == 0) {
 				System.out.print(bblackBg + black);
 			} else {
@@ -87,7 +87,7 @@ public class AirField implements ConsoleEffect {
 	}
 
 	public void flyAllJets() {
-		ArrayList<Jet> jets = this.getHanger();
+		ArrayList<Jet> jets = this.getHangar();
 		System.out.println();
 		for (int i = 0; i < jets.size(); i++) {
 			jets.get(i).fly();
@@ -108,7 +108,7 @@ public class AirField implements ConsoleEffect {
 	};
 
 	public ArrayList<Jet> getFastestJets() {
-		ArrayList<Jet> jets = getHanger();
+		ArrayList<Jet> jets = getHangar();
 		ArrayList<Jet> fastJets = new ArrayList<>();
 
 		Jet fastest = jets.get(0);
@@ -146,7 +146,7 @@ public class AirField implements ConsoleEffect {
 	};
 
 	public ArrayList<Jet> getLongestRangeJets() {
-		ArrayList<Jet> jets = getHanger();
+		ArrayList<Jet> jets = getHangar();
 		ArrayList<Jet> fastJets = new ArrayList<>();
 
 		Jet fastest = jets.get(0);
@@ -162,7 +162,7 @@ public class AirField implements ConsoleEffect {
 		}
 		return fastJets;
 	}
-	
+
 	public void showLongestRange() {
 		System.out.printf("%n%s%20s", bmagenta, "");
 		System.out.printf("%sOur long range jet(s) %15s%n%n", underline, "");
@@ -184,7 +184,7 @@ public class AirField implements ConsoleEffect {
 
 	public void loadAllCargo() {
 		System.out.println();
-		ArrayList<Jet> jets = getHanger();
+		ArrayList<Jet> jets = getHangar();
 		int counter = 0;
 		for (Jet jet : jets) {
 			if (jet instanceof IntrfCargo) {
@@ -207,7 +207,7 @@ public class AirField implements ConsoleEffect {
 
 	public void dogfight() {
 		System.out.println();
-		ArrayList<Jet> jets = getHanger();
+		ArrayList<Jet> jets = getHangar();
 		int counter = 0;
 		for (Jet jet : jets) {
 
@@ -260,21 +260,21 @@ public class AirField implements ConsoleEffect {
 		message = "Enter Range (Miles): ";
 		range = VerifyScanner.inputValidation(sc, "int", message);
 
-		message = "Enter price [Numbers only]: ";
+		message = "Enter price: ";
 		price = VerifyScanner.inputValidation(sc, "long", message);
 
-		System.out.println(reset);
-		System.out.printf("%11s New Jet Added %11s%s%n", "", "", reset);
+		System.out.println(greenBg + black);
+		System.out.printf("%11s New Jet Added %11s%s%n%n", "", "", reset);
 
 		switch (type) {
 		case 1:
-			hanger.add(new PassengerPlane(model, speed, range, price));
+			hangar.add(new PassengerPlane(model, speed, range, price));
 			break;
 		case 2:
-			hanger.add(new FighterJet(model, speed, range, price));
+			hangar.add(new FighterJet(model, speed, range, price));
 			break;
 		case 3:
-			hanger.add(new CargoPlane(model, speed, range, price));
+			hangar.add(new CargoPlane(model, speed, range, price));
 			break;
 		}
 
@@ -286,7 +286,7 @@ public class AirField implements ConsoleEffect {
 		System.out.println();
 		System.out.printf("%s%s%28s Remove A Jet %28s%s%n", redBg, black, "", "", reset);
 		System.out.printf("%s%s0) Cancel operation %50s%s%n", greenBg, black, "", reset);
-		for (Jet jet : hanger) {
+		for (Jet jet : hangar) {
 			if (counter % 2 == 0) {
 				System.out.print(bblackBg + black);
 			} else {
@@ -297,7 +297,7 @@ public class AirField implements ConsoleEffect {
 			counter++;
 		}
 		String message = reset + bcyan + "\nEnter Jet number you wish to remove: ";
-		userInput = VerifyScanner.inputValidation(sc, "int", message, -1, hanger.size() + 1);
+		userInput = VerifyScanner.inputValidation(sc, "int", message, -1, hangar.size() + 1);
 
 		if (userInput == 0) {
 			System.out.printf("%s%s%26s Removal Canceled %26s%n", greenBg, black, "", "");
@@ -305,7 +305,7 @@ public class AirField implements ConsoleEffect {
 			return;
 		}
 		System.out.print(reset);
-		hanger.remove(userInput - 1);
+		hangar.remove(userInput - 1);
 		System.out.printf("%s%s%28s Jet  Removed %28s%n", redBg, black, "", "");
 		System.out.println();
 	}
