@@ -23,7 +23,6 @@ public class AirField implements ConsoleEffect {
 	public ArrayList<Jet> getJetsFromFile(String file) {
 		int count = 1;
 		try (BufferedReader bufIn = new BufferedReader(new FileReader(file))) {
-
 			String line;
 			while ((line = bufIn.readLine()) != null) {
 				try {
@@ -48,15 +47,17 @@ public class AirField implements ConsoleEffect {
 					}
 
 				} catch (Exception e) {
-					System.out.println(reset + byellow + "File error on line: " + count + reset);
+					System.err.println("File error on line: " + count + reset);
+
 				} finally {
 					count++;
+
 				}
 
 			}
-
+			System.out.println();
 		} catch (IOException e) {
-			System.err.println(e);
+			System.err.println("File not found, Generating empty airfield \n");
 		}
 
 		return hanger;
@@ -106,41 +107,127 @@ public class AirField implements ConsoleEffect {
 		System.out.println();
 	};
 
-	public void showFastest() {
+	public ArrayList<Jet> getFastestJets() {
 		ArrayList<Jet> jets = getHanger();
+		ArrayList<Jet> fastJets = new ArrayList<>();
+
 		Jet fastest = jets.get(0);
 		for (Jet jet : jets) {
-			if (jet.getSpeed() > fastest.getSpeed()) {
-				fastest = jet;
+			if (jet.getSpeed() >= fastest.getSpeed()) {
+				fastJets.add(jet);
+				if (jet.getSpeed() > fastest.getSpeed()) {
+					fastJets = new ArrayList<>();
+					fastJets.add(jet);
+					fastest = jet;
+				}
 			}
 		}
-		System.out.println("Our Fastest jet is: " + fastest);
-
-	};
-
-	public void showLongestRange() {
-		ArrayList<Jet> jets = getHanger();
-		Jet best = jets.get(0);
-		for (Jet jet : jets) {
-			if (jet.getRange() > best.getRange()) {
-				best = jet;
-			}
-		}
-		System.out.println("Our jet With the longest range is: " + best);
+		return fastJets;
 	}
 
+	public void showFastest() {
+
+		System.out.printf("%n%s%20s", bmagenta, "");
+		System.out.printf("%sOur Fastest jet(s) %15s%n%n", underline, "");
+		System.out.print(reset);
+		int count = 0;
+		for (Jet jet : getFastestJets()) {
+			if (count % 2 == 0) {
+				System.out.print(bblackBg + black);
+			} else {
+				System.out.print(blackBg + white);
+			}
+
+			System.out.println(" " + jet + " ");
+			count++;
+		}
+
+		System.out.println();
+	};
+
+	public ArrayList<Jet> getLongestRangeJets() {
+		ArrayList<Jet> jets = getHanger();
+		ArrayList<Jet> fastJets = new ArrayList<>();
+
+		Jet fastest = jets.get(0);
+		for (Jet jet : jets) {
+			if (jet.getRange() >= fastest.getRange()) {
+				fastJets.add(jet);
+				if (jet.getRange() > fastest.getRange()) {
+					fastJets = new ArrayList<>();
+					fastJets.add(jet);
+					fastest = jet;
+				}
+			}
+		}
+		return fastJets;
+	}
+	
+	public void showLongestRange() {
+		System.out.printf("%n%s%20s", bmagenta, "");
+		System.out.printf("%sOur long range jet(s) %15s%n%n", underline, "");
+		System.out.print(reset);
+		int count = 0;
+		for (Jet jet : getLongestRangeJets()) {
+			if (count % 2 == 0) {
+				System.out.print(bblackBg + black);
+			} else {
+				System.out.print(blackBg + white);
+			}
+
+			System.out.println(" " + jet + " ");
+			count++;
+		}
+
+		System.out.println();
+	};
+
 	public void loadAllCargo() {
+		System.out.println();
 		ArrayList<Jet> jets = getHanger();
 		int counter = 0;
 		for (Jet jet : jets) {
-			if (jet instanceof CargoPlane) {
+			if (jet instanceof IntrfCargo) {
 				CargoPlane cargo = (CargoPlane) jet;
-				cargo.loadCarrier(counter);
+
+				System.out.print(green + "Loading up cargo ");
+
+				if (counter % 2 == 0) {
+					System.out.print(black + bblackBg);
+				} else {
+					System.out.print(bblack + blackBg);
+				}
+
+				cargo.loadCarrier();
 				counter++;
 			}
 		}
-
+		System.out.println(reset);
 	};
+
+	public void dogfight() {
+		System.out.println();
+		ArrayList<Jet> jets = getHanger();
+		int counter = 0;
+		for (Jet jet : jets) {
+
+			if (jet instanceof IntfFighter) {
+				FighterJet fighter = (FighterJet) jet;
+				System.out.print(green + "Heading out, engaging targets " + reset);
+
+				if (counter % 2 == 0) {
+					System.out.print(black + bblackBg);
+				} else {
+					System.out.print(bblack + blackBg);
+				}
+				fighter.dogFight();
+				System.out.print(reset);
+
+				counter++;
+			}
+		}
+		System.out.println();
+	}
 
 	public void addJet(Scanner sc) {
 		int type;
@@ -149,27 +236,36 @@ public class AirField implements ConsoleEffect {
 		int range;
 		long price;
 		String message;
-		System.out.printf("%s%s%37s%n", bblackBg, black, "");
-		System.out.printf("%11s ADDING NEW JET%11s%n", "", "");
-		System.out.printf("%37s%n", "");
+		System.out.println(greenBg + black);
+		System.out.printf("%11s ADDING NEW JET%11s%s%n", "", "", reset);
+		System.out.println(magenta);
 		System.out.printf("%11s  Select Type: %11s%n", "", "");
-		message = black + "1) PASSENGER | 2) FIGHTER | 3) CARGO " + blue + "\nEnter Selection:  ";
-		type = VerifyScanner.inputValidation(sc, "int", message, 0, 4);
+		message = white + "\n1) PASSENGER | 2) FIGHTER | 3) CARGO " + bcyan + "\n\nEnter Selection [0. to cancel]:  ";
+		type = VerifyScanner.inputValidation(sc, "int", message, -1, 4);
 
+		if (type == 0) {
+			System.out.print(greenBg + black);
+			System.out.printf("%8s Opreation Canceled %8s%s%n", "", "", reset);
+			System.out.println(reset);
+			return;
+
+		}
 		System.out.printf("Enter Model: ");
 		sc.nextLine();
 		model = sc.nextLine().trim();
 
-		message = black + "Enter Speed (MPH): " + blue;
+		message = "Enter Speed (MPH): ";
 		speed = VerifyScanner.inputValidation(sc, "double", message);
 
-		message = black + "Enter Range (Miles): " + blue;
+		message = "Enter Range (Miles): ";
 		range = VerifyScanner.inputValidation(sc, "int", message);
 
-		message = black + "Enter price [Numbers only]: " + blue;
+		message = "Enter price [Numbers only]: ";
 		price = VerifyScanner.inputValidation(sc, "long", message);
 
 		System.out.println(reset);
+		System.out.printf("%11s New Jet Added %11s%s%n", "", "", reset);
+
 		switch (type) {
 		case 1:
 			hanger.add(new PassengerPlane(model, speed, range, price));
@@ -200,7 +296,7 @@ public class AirField implements ConsoleEffect {
 			System.out.println((counter + 1) + ") " + jet);
 			counter++;
 		}
-		String message = redBg + black + "Enter Jet number you wish to remove: ";
+		String message = reset + bcyan + "\nEnter Jet number you wish to remove: ";
 		userInput = VerifyScanner.inputValidation(sc, "int", message, -1, hanger.size() + 1);
 
 		if (userInput == 0) {
@@ -208,8 +304,9 @@ public class AirField implements ConsoleEffect {
 			System.out.println();
 			return;
 		}
-		System.out.println(reset);
+		System.out.print(reset);
 		hanger.remove(userInput - 1);
+		System.out.printf("%s%s%28s Jet  Removed %28s%n", redBg, black, "", "");
 		System.out.println();
 	}
 }

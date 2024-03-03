@@ -4,36 +4,26 @@ import com.ventura.util.ConsoleEffect;
 
 public class CargoPlane extends Jet implements IntrfCargo, ConsoleEffect {
 
-	private static final String type = "Cargo";
-
 	public CargoPlane(String model, double speed, int range, long price) {
 		super(model, speed, range, price);
 	}
 
 	@Override
 	public void fly() {
-		System.out.print(blackBg + green + type + " Flying Out:     " + reset);
+		System.out.print(reset + green + "Flying Out: " + reset);
 		
 	}
 
 	@Override
-	public void loadCarrier(int counter) {
-		if (counter % 2 == 0) {
-			System.out.println(
-					green + blackBg + "Loading up cargo: " + reset + black + bblackBg + this.toString() + reset);
-
-		} else {
-			System.out.println(
-					green + blackBg + "Loading up cargo: " + reset + bblack + blackBg + this.toString() + reset);
-
-		}
+	public void loadCarrier() {
+		System.out.println(" " + this.toString() + reset);
 
 	}
 
 	@Override
 	public String toString() {
-		return "Model: " + getModel() + "\t" + "Speed: " + getSpeed() + "\t" + "Range: "
-				+ getRange() + "\t" + "Price: " + getPrice() + "]";
+		return "Model: " + getModel() + " | " + "Speed: " + getSpeed() + " | " + "Range: " + getRange() + " | "
+				+ "Price: " + getPrice() + "]";
 	}
 
 }

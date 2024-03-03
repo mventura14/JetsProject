@@ -4,7 +4,7 @@ import com.ventura.util.ConsoleEffect;
 
 public class FighterJet extends Jet implements IntfFighter, ConsoleEffect {
 
-	private static final String type = "Fighter";
+
 
 	public FighterJet(String model, double speed, int range, long price) {
 		super(model, speed, range, price);
@@ -12,13 +12,19 @@ public class FighterJet extends Jet implements IntfFighter, ConsoleEffect {
 
 	@Override
 	public void fly() {
-		System.out.print(blackBg + green + type + " Flying Out:   " + reset);
+		System.out.print(reset + green + "Flying Out: " + reset);
 	}
 
 	@Override
 	public String toString() {
-		return "Model: " + getModel() + "\t" + "Speed: " + getSpeed() + "\t" + "Range: "
-				+ getRange() + "\t" + "Price: " + getPrice() + "]";
+		return "Model: " + getModel() + " | " + "Speed: " + getSpeed() + " | " + "Range: " + getRange() + " | "
+				+ "Price: " + getPrice() + "]";
+	}
+
+	@Override
+	public void dogFight() {
+		System.out.println(" " + this.toString() + reset);
+
 	}
 
 }

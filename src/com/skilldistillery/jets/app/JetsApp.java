@@ -22,27 +22,31 @@ public class JetsApp implements ConsoleEffect {
 			displayUserMenu();
 			run = userSelection(run, sc);
 		}
-
+		sc.close();
 	}
 
 	public void displayUserMenu() {
-		System.out.print(blackBg);
-		System.out.printf("%32s%n", "");
-		System.out.printf("1) List Fleet %18s%n", "");
-		System.out.printf("2) Fly all jets %16s%n", "");
-		System.out.printf("3) View fastest jet %12s%n", "");
-		System.out.printf("4) View jet with longest range %1s%n", "");
-		System.out.printf("5) Load all Cargo Jets %9s%n", "");
-		System.out.printf("6) Dogfight! %19s%n", "");
-		System.out.printf("7) Add a jet to Fleet %10s%n", "");
-		System.out.printf("8) Remove a jet from Fleet %5s%n", "");
-		System.out.printf("9) Quit %24s%n", "");
-		System.out.printf("%32s%n", "");
-		System.out.print(reset);
-	};
+
+		String[] menuOptions = { "Air Field -- Main Menu", "List Fleet", "Fly all jets", "View fastest jet",
+				"View jet with longest range", "Load all Cargo Jets", "Dogfight!",
+				"Add a jet to Fleet", "Remove a jet from Fleet", "Quit" };
+		int count = 0;
+		for (String option : menuOptions) {
+			if (count == 0) {
+				System.out.print(bmagenta);
+				System.out.println(option);
+				System.out.println(reset);
+			} else {
+				System.out.println(count + ") " + option);
+			}
+			count++;
+
+		}
+		System.out.println();
+	}
 
 	public boolean userSelection(boolean running, Scanner sc) {
-		String message = blackBg + bcyan + "Enter Selection: " + bcyan;
+		String message = bcyan + "Enter Selection: " + bcyan;
 		running = true;
 		int user = VerifyScanner.inputValidation(sc, "int", message, 0, 10);
 		System.out.print(reset);
@@ -63,7 +67,7 @@ public class JetsApp implements ConsoleEffect {
 			a1.loadAllCargo();
 			break;
 		case 6:
-
+			a1.dogfight();
 			break;
 		case 7:
 			a1.addJet(sc);
@@ -72,7 +76,8 @@ public class JetsApp implements ConsoleEffect {
 			a1.removeJet(sc);
 			break;
 		case 9:
-			System.out.println("Program ends");
+			System.out.println();
+			System.out.println(bred + "Program Terminated");
 			running = false;
 			break;
 		}
